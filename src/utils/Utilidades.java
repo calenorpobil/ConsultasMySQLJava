@@ -16,6 +16,11 @@ import javax.swing.JOptionPane;
  */
 public class Utilidades {
     
+                          
+    public static void muestraErrorGrafico(String mensaje) {
+        JOptionPane.showMessageDialog(null, mensaje, "CPIFP", JOptionPane.ERROR_MESSAGE);
+    }
+    
     public static String menuConCabecera(String cabecera, String[] opciones){
         String respuesta;
         String mensaje;

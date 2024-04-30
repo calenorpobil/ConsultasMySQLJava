@@ -7,24 +7,28 @@ package com.calitos.ejer2;
 import Excepciones.MiExcepcion;
 import static com.calitos.ejer2.Ejer2.miConexion;
 import gestores.GestorDB;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import modelo.Articulo;
 
 /**
  *
  * @author Carlos
  */
-public class ventanaListado extends javax.swing.JFrame {
+public class VentanaListado extends javax.swing.JFrame {
 
     private GestorDB conn;
     private Ejer2 ventanaVieja;
+    private DefaultTableModel dtm;
     /**
      * Creates new form ventanaListado
      * @param ventajaVieja
      * @param miConexion
      */
-    public ventanaListado(Ejer2 ventajaVieja, GestorDB miConexion) {
+    public VentanaListado(Ejer2 ventajaVieja, GestorDB miConexion) {
         initComponents();
         this.ventanaVieja = ventajaVieja;
         rutina(miConexion);
@@ -125,8 +129,7 @@ public class ventanaListado extends javax.swing.JFrame {
         this.conn = miConn;
         try {
             miConexion.inicializarBBDD();
-            textoListado.setText(conn.listado());
-            
+            rellenoTabla();
         } catch (MiExcepcion ex) {
             muestraError(ex.getMessage());
         }finally{
@@ -140,5 +143,16 @@ public class ventanaListado extends javax.swing.JFrame {
                                         
     private void muestraError(String mensaje) {
         JOptionPane.showMessageDialog(this, mensaje, "CPIFP", JOptionPane.ERROR_MESSAGE);
+    }
+
+    private void rellenoTabla() {
+        dtm = (DefaultTableModel) tablaListado.getModel();
+        String[][] datos = null;
+        try{
+            datos = conn.listado();
+        }catch(MiExcepcion ex){
+            muestraError(ex.getMessage());
+        }
+        dtm.setDataVector(datos, Articulo.CABECERA);
     }
 }

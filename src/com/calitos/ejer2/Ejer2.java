@@ -1,6 +1,32 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
+Ejer2_Artículos
+
+Se desea controlar una base de datos (almacen) con los 
+artículos de una empresa.  De cada artículo me interesa 
+la siguiente información:
+
+cod_art:varchar(5)
+descripción: varchar(25)
+cantidad: integer
+cantidad_min:  integer
+precio: float
+
+En entorno gráfico crear las ventanas necesarias 
+para controlar las siguientes opciones:
+
+·Alta
+·Listado
+·Venta
+·Listado compras
+·Modificar datos.
+·Compras a proveedores
+
+Opción Modificar datos -->Se mostrará una ventana como la de Alta, y 
+sólo se permitirá editar el código.  Una vez introducido el código, 
+si el artículo existe se mostrarán todos sus datos y se permitirá la 
+edición de todos ellos , menos del código.
+
+
  */
 package com.calitos.ejer2;
 
@@ -49,6 +75,11 @@ public class Ejer2 extends javax.swing.JFrame {
 
         botonAlta.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
         botonAlta.setText("Alta");
+        botonAlta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonAltaActionPerformed(evt);
+            }
+        });
 
         botonListado.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
         botonListado.setText("Listado");
@@ -108,10 +139,16 @@ public class Ejer2 extends javax.swing.JFrame {
 
     private void botonListadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonListadoActionPerformed
         this.setVisible(false);
-        ventanaListado vL = new ventanaListado(this, miConexion);
+        VentanaListado vL = new VentanaListado(this, miConexion);
         vL.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_botonListadoActionPerformed
+
+    private void botonAltaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAltaActionPerformed
+        VentanaAlta vA = new VentanaAlta(this, miConexion);
+        vA.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_botonAltaActionPerformed
 
     /**
      * @param args the command line arguments
