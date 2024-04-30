@@ -11,6 +11,8 @@ import Excepciones.MiExcepcion;
  */
 public class Articulo {
 
+    public static final String[] CABECERA = {"CÓDIGO", "DESCRIPCIÓN", "PRECIO", 
+        "CANTIDAD", "CANTIDAD MÍNIMA"};
     private String cod_art;
     private String descripcion;
     private float precio;
@@ -108,6 +110,14 @@ public class Articulo {
             throw new MiExcepcion("Cantidad mínima incorrecta, no es un número. ");
         }
         setCantidad_min(resultado);
+    }
+    
+    
+    public String[] toArrayListado(){
+        String [] res = {cod_art, descripcion, String.format("%.2f", precio), 
+            String.format("%d", cantidad), String.format("%d", cantidad_min)};
+        
+        return res;
     }
 
 }

@@ -150,7 +150,7 @@ public class Ejer2 extends javax.swing.JFrame {
     }
 
     private void inicio() {
-        miConexion = new GestorDB("user", "ejer2", 
+        miConexion = new GestorDB("user", "almacen", 
                 "jdbc:mysql://127.0.0.1:3306/", "acme");
             //Si hay un conflicto con el puerto 3306, por XAMPP se puede entrar
             //a la configuración y cambiarlo a otro.
@@ -158,15 +158,15 @@ public class Ejer2 extends javax.swing.JFrame {
             miConexion.inicializarBBDD();
             
             Articulo al = new Articulo(
-                    "A002", 
-                    "Dos dos", 
+                    "A004", 
+                    "Dos tres", 
                     2.2f, 
                     1, 
                     4);
             miConexion.altaArticulo(al);
             
             
-            //No cerrar la conexión resta bastante. 
+            //No cerrar la conexión restará bastante. 
         } catch (MiExcepcion ex) {
             System.out.println(ex.getMessage());
         } finally {

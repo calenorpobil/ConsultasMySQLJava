@@ -93,6 +93,7 @@ public class GestorDB {
             Class.forName("com.mysql.cj.jdbc.Driver");
             //Conectamos con una BBDD concreta: 
             this.conn = DriverManager.getConnection(conexion + db, user, password);
+            System.out.println("Conexion abierta CUIDAO");
         } catch (ClassNotFoundException ex) {
             throw new MiExcepcion("Acuérdate de añadir la dependencia en el "
                     + "archivo po.xml. Cópialo del Ejer1. ");
