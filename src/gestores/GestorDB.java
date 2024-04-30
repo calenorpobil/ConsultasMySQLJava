@@ -10,6 +10,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import modelo.Articulo;
 
 /**
@@ -48,9 +49,9 @@ public class GestorDB {
             st.setInt(5, al.getCantidad_min());
             return st.executeUpdate();
         } catch (SQLException ex) {
-            switch(ex.getErrorCode()){
+            switch (ex.getErrorCode()) {
                 case 1062 -> {
-                    throw new MiExcepcion("Clave Duplicada: "+al.getCod_art());
+                    throw new MiExcepcion("Clave Duplicada: " + al.getCod_art());
                 }
                 case 1064 -> {
                     throw new MiExcepcion("Sentencia SQL mal escrita. ");
@@ -59,12 +60,12 @@ public class GestorDB {
                     throw new MiExcepcion("Datos no válidos. ");
                 }
             }
-            throw new MiExcepcion("Error en la sentencia SQL que dice: "+sentencia+"\n"
+            throw new MiExcepcion("Error en la sentencia SQL que dice: " + sentencia + "\n"
                     + "Código: " + ex.getErrorCode());
         } finally {
-            try{
+            try {
                 st.close();
-            }catch (SQLException | NullPointerException ex){
+            } catch (SQLException | NullPointerException ex) {
                 throw new MiExcepcion("Error insertando. Posible pérdida de información. ");
             }
         }
@@ -74,10 +75,10 @@ public class GestorDB {
     public void cerrarConexion() throws MiExcepcion {
         try {
             //Si no se hace esto, no se guardan los datos
-            if (conn!=null) {
+            if (conn != null) {
                 this.conn.close();
                 System.out.println("Puerta cerrada, soy feliz. ");
-            }else{
+            } else {
                 System.out.println("Ni siquiera habia una conexion, como voy a cerrar...");
             }
         } catch (SQLException ex) {
@@ -103,11 +104,11 @@ public class GestorDB {
         }
     }
 
-    public String listado() throws MiExcepcion {
+    public String[][] listado() throws MiExcepcion {
         String resultado = "";
-        
-        PreparedStatement st = null;
 
+        PreparedStatement st = null;
+        ArrayList<String[]> res = new ArrayList<>();
         String sentencia = "select * from articulos;";
         try {
             //NO USAR STATEMENT
@@ -115,37 +116,34 @@ public class GestorDB {
                     sentencia
             );
             ResultSet rs = st.executeQuery();
-            
-            while (rs.next())
-            {
-              String codigo = rs.getString(1);
-              String desc = rs.getString(2);
-              float precio = rs.getFloat(3);
-              int isAdmin = rs.getInt(4);
-              int numPoints = rs.getInt(5);
 
-              // print the results
-              resultado += String.format(
-                      "%s, %s, %s, %s, %s\n", 
-                      codigo, desc, precio, isAdmin, numPoints);
+            while (rs.next()) {
+                Articulo ar = new Articulo(
+                        rs.getString(1), 
+                        rs.getString(2),
+                        rs.getFloat(3), 
+                        rs.getInt(4), 
+                        rs.getInt(5));
+
+                res.add(ar.toArrayListado());
             }
-            
-            st.close();
-            return resultado;
+            String [][] listado = res.toArray(new String[0][0]);
+
+            return listado;
         } catch (SQLException ex) {
-            throw new MiExcepcion("Error en la sentencia SQL que dice: "+sentencia+"\n"
+            throw new MiExcepcion("Error en la sentencia SQL que dice: " + sentencia + "\n"
                     + "Código: " + ex.getErrorCode());
         } finally {
-            try{
-                if (st!=null) {
+            try {
+                if (st != null) {
                     st.close();
                 }
-            }catch (SQLException | NullPointerException ex){
+            } catch (SQLException | NullPointerException ex) {
                 throw new MiExcepcion("Error cerrando... \n"
                         + "Posible pérdida de información. ");
             }
         }
-        
+
     }
 
 }
