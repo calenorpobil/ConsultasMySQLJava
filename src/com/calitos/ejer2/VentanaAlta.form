@@ -100,27 +100,48 @@
         <Component class="javax.swing.JTextField" name="textoCodigo">
           <Properties>
             <Property name="text" type="java.lang.String" value="C&#xf3;digo"/>
+            <Property name="toolTipText" type="java.lang.String" value="C&#xf3;digo"/>
+            <Property name="name" type="java.lang.String" value="" noResource="true"/>
           </Properties>
+          <AccessibilityProperties>
+            <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="Descripci&#xf3;n"/>
+          </AccessibilityProperties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="textoCodigoActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="textoDescripcion">
           <Properties>
             <Property name="text" type="java.lang.String" value="Descripci&#xf3;n"/>
+            <Property name="toolTipText" type="java.lang.String" value="Descripci&#xf3;n"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="textoDescripcionActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="textoCantidad">
           <Properties>
             <Property name="text" type="java.lang.String" value="Cantidad"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="textoCantidadActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="textoPrecio">
           <Properties>
             <Property name="text" type="java.lang.String" value="Precio"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="textoPrecioActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="textoCantidadMinima">
           <Properties>
             <Property name="text" type="java.lang.String" value="Cantidad m&#xed;nima"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="textoCantidadMinimaActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="etiTitulo">
           <Properties>

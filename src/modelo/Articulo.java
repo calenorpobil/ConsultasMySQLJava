@@ -19,7 +19,7 @@ public class Articulo {
     private int cantidad, cantidad_min;
 
     public Articulo(String cod_art, String descripcion, float precio,
-            int cantidad, int cantidad_min) {
+            int cantidad, int cantidad_min) throws MiExcepcion {
         setCod_art(cod_art);
         setDescripcion(descripcion);
         setPrecio(precio);
@@ -44,17 +44,21 @@ public class Articulo {
         this.cantidad_min = cantidad_min;
     }
 
-    public void setDescripcion(String descripcion) {
+    public void setDescripcion(String descripcion) throws MiExcepcion {
         int lon = descripcion.length();
         if (lon <= 25) {
             this.descripcion = descripcion;
+        }else{
+            throw new MiExcepcion("Por favor, usa una descripción de maximo 25 caracteres. ");
         }
     }
 
-    public void setCod_art(String codigo) {
+    public void setCod_art(String codigo) throws MiExcepcion {
         int lon = codigo.length();
         if (lon <= 5) {
             this.cod_art = codigo;
+        }else{
+            throw new MiExcepcion("Por favor, usa un codigo de maximo 5 caracteres. ");
         }
     }
 

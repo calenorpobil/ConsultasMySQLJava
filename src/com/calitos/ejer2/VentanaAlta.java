@@ -6,10 +6,10 @@ package com.calitos.ejer2;
 
 import Excepciones.MiExcepcion;
 import static com.calitos.ejer2.Ejer2.miConexion;
-import copiarArchivos.Utilidades;
-import static copiarArchivos.Utilidades.muestraErrorGrafico;
 import gestores.GestorDB;
+import java.awt.Color;
 import modelo.Articulo;
+import static utils.Utilidades.muestraErrorGrafico;
 
 /**
  *
@@ -52,14 +52,42 @@ public class VentanaAlta extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         textoCodigo.setText("Código");
+        textoCodigo.setToolTipText("Código");
+        textoCodigo.setName(""); // NOI18N
+        textoCodigo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                textoCodigoActionPerformed(evt);
+            }
+        });
 
         textoDescripcion.setText("Descripción");
+        textoDescripcion.setToolTipText("Descripción");
+        textoDescripcion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                textoDescripcionActionPerformed(evt);
+            }
+        });
 
         textoCantidad.setText("Cantidad");
+        textoCantidad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                textoCantidadActionPerformed(evt);
+            }
+        });
 
         textoPrecio.setText("Precio");
+        textoPrecio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                textoPrecioActionPerformed(evt);
+            }
+        });
 
         textoCantidadMinima.setText("Cantidad mínima");
+        textoCantidadMinima.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                textoCantidadMinimaActionPerformed(evt);
+            }
+        });
 
         etiTitulo.setFont(new java.awt.Font("Gloucester MT Extra Condensed", 1, 48)); // NOI18N
         etiTitulo.setText("ALTA DE ARTÍCULOS");
@@ -132,6 +160,8 @@ public class VentanaAlta extends javax.swing.JFrame {
                 .addGap(31, 31, 31))
         );
 
+        textoCodigo.getAccessibleContext().setAccessibleName("Descripción");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -152,21 +182,23 @@ public class VentanaAlta extends javax.swing.JFrame {
     }//GEN-LAST:event_botonVolverActionPerformed
 
     private void botonAltaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAltaActionPerformed
-        
+        Articulo a1;
         
         try {
             miConexion.inicializarBBDD();
-            miConexion.altaArticulo(new Articulo(
+            a1 = new Articulo(
                     textoCodigo.getText(), 
                     textoDescripcion.getText(), 
                     textoPrecio.getText(), 
                     textoCantidad.getText(), 
-                    textoCantidadMinima.getText()));
+                    textoCantidadMinima.getText());
+            miConexion.altaArticulo(a1);
+            mensajeCorrecto();
             
             
             
         } catch (MiExcepcion ex) {
-            muestraErrorGrafico(ex.getMessage());
+            mensajeIncorrecto(ex.getMessage());
         }finally{
             try {
                 miConexion.cerrarConexion();
@@ -177,9 +209,46 @@ public class VentanaAlta extends javax.swing.JFrame {
         
     }//GEN-LAST:event_botonAltaActionPerformed
 
+    private void mensajeIncorrecto(String ex) {
+        etiMensajes.setText(ex);
+        etiMensajes.setForeground(Color.red);
+        etiMensajes.setVisible(true);
+    }
+
+    private void mensajeCorrecto() {
+        etiMensajes.setText("Enhorabuena, dado de alta. ");
+        etiMensajes.setForeground(Color.green);
+        etiMensajes.setVisible(true);
+    }
+
+    private void textoCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textoCodigoActionPerformed
+        botonAltaActionPerformed(evt);
+    }//GEN-LAST:event_textoCodigoActionPerformed
+
+    private void textoDescripcionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textoDescripcionActionPerformed
+        botonAltaActionPerformed(evt);
+    }//GEN-LAST:event_textoDescripcionActionPerformed
+
+    private void textoPrecioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textoPrecioActionPerformed
+        botonAltaActionPerformed(evt);
+    }//GEN-LAST:event_textoPrecioActionPerformed
+
+    private void textoCantidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textoCantidadActionPerformed
+        botonAltaActionPerformed(evt);
+    }//GEN-LAST:event_textoCantidadActionPerformed
+
+    private void textoCantidadMinimaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textoCantidadMinimaActionPerformed
+        botonAltaActionPerformed(evt);
+    }//GEN-LAST:event_textoCantidadMinimaActionPerformed
+
     private void rutina() {
         etiMensajes.setVisible(false);
         textoCodigo.requestFocus();
+        textoCodigo.setToolTipText("Código");
+        textoCantidad.setToolTipText("Cantidad");
+        textoCantidadMinima.setToolTipText("Cantidad mínima");
+        textoDescripcion.setToolTipText("Descripción");
+        textoPrecio.setToolTipText("Precio");
     }
 
 

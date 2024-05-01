@@ -31,7 +31,8 @@
                   <Component id="botonListadoCompras" alignment="1" max="32767" attributes="0"/>
                   <Component id="botonCompras" alignment="1" max="32767" attributes="0"/>
                   <Component id="botonListado" max="32767" attributes="0"/>
-                  <Component id="botonVenta" min="-2" pref="288" max="-2" attributes="0"/>
+                  <Component id="botonVenta" max="32767" attributes="0"/>
+                  <Component id="textMensajePosible" max="32767" attributes="0"/>
               </Group>
               <EmptySpace pref="47" max="32767" attributes="0"/>
           </Group>
@@ -52,7 +53,9 @@
               <Component id="botonModificar" min="-2" pref="51" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="botonCompras" min="-2" pref="51" max="-2" attributes="0"/>
-              <EmptySpace pref="77" max="32767" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Component id="textMensajePosible" min="-2" max="-2" attributes="0"/>
+              <EmptySpace pref="49" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -110,6 +113,14 @@
           <Font name="Segoe UI" size="24" style="0"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Compras a proveedores"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="textMensajePosible">
+      <Properties>
+        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="0" green="0" red="66" type="rgb"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="mensajePosible"/>
       </Properties>
     </Component>
   </SubComponents>

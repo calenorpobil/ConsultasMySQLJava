@@ -31,11 +31,9 @@ edición de todos ellos , menos del código.
 package com.calitos.ejer2;
 
 import Excepciones.MiExcepcion;
-import com.sun.jdi.connect.spi.Connection;
 import gestores.GestorDB;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import modelo.Articulo;
+import utils.Utilidades;
 
 /**
  *
@@ -70,6 +68,7 @@ public class Ejer2 extends javax.swing.JFrame {
         botonListadoCompras = new javax.swing.JButton();
         botonModificar = new javax.swing.JButton();
         botonCompras = new javax.swing.JButton();
+        textMensajePosible = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -101,6 +100,9 @@ public class Ejer2 extends javax.swing.JFrame {
         botonCompras.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         botonCompras.setText("Compras a proveedores");
 
+        textMensajePosible.setForeground(new java.awt.Color(102, 0, 0));
+        textMensajePosible.setText("mensajePosible");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -113,7 +115,8 @@ public class Ejer2 extends javax.swing.JFrame {
                     .addComponent(botonListadoCompras, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(botonCompras, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(botonListado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(botonVenta, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(botonVenta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(textMensajePosible, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(47, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -131,7 +134,9 @@ public class Ejer2 extends javax.swing.JFrame {
                 .addComponent(botonModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(botonCompras, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(77, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(textMensajePosible)
+                .addContainerGap(49, Short.MAX_VALUE))
         );
 
         pack();
@@ -187,32 +192,50 @@ public class Ejer2 extends javax.swing.JFrame {
     }
 
     private void inicio() {
-        miConexion = new GestorDB("user", "almacen", 
-                "jdbc:mysql://127.0.0.1:3306/", "acme");
-            //Si hay un conflicto con el puerto 3306, por XAMPP se puede entrar
-            //a la configuración y cambiarlo a otro.
-        try {
-            miConexion.inicializarBBDD();
-            
-            Articulo al = new Articulo(
-                    "A004", 
-                    "Dos tres", 
-                    2.2f, 
-                    1, 
-                    4);
-            miConexion.altaArticulo(al);
-            
-            
-            //No cerrar la conexión restará bastante. 
-        } catch (MiExcepcion ex) {
-            System.out.println(ex.getMessage());
-        } finally {
+        textMensajePosible.setVisible(false);
+        String[]mensajes = {"Escribe el usuario: ", "Escribe la contraseña: "};
+        String[] cadenas;
+        boolean repetir=false;
+        do {
+            cadenas = Utilidades.pideCadenasGrafico(mensajes);
+            String nombreTabla="ejer2";
+            miConexion = new GestorDB(cadenas[0], nombreTabla, 
+                    "jdbc:mysql://127.0.0.1:3306/", cadenas[1]);
+                //Si hay un conflicto con el puerto 3306, por XAMPP se puede entrar
+                //a la configuración y cambiarlo a otro.
             try {
-                miConexion.cerrarConexion();
+                miConexion.inicializarBBDD();
+
+                Articulo al = new Articulo(
+                        "A004", 
+                        "Dos tres", 
+                        2.2f, 
+                        1, 
+                        4);
+                miConexion.altaArticulo(al);
+
+
+            //No cerrar la conexión restará bastante. 
             } catch (MiExcepcion ex) {
-                System.out.println(ex.getMessage());
+                if(ex.getMessage().startsWith("Usuario")){
+                    //Mensaje si el usuario es incorrecto: 
+                    repetir =true;
+                    Utilidades.muestraErrorGrafico(ex.getMessage());
+                }else{
+                    textMensajePosible.setVisible(true);
+                    textMensajePosible.setText("Mira, te dejo pasar pero tampoco puedes hacer nada...");
+                    Utilidades.muestraErrorGrafico(ex.getMessage());
+                    repetir=false;
+                }
+            } finally {
+                try {
+                    miConexion.cerrarConexion();
+                    textMensajePosible.setVisible(false);
+                } catch (MiExcepcion ex) {
+                    Utilidades.muestraErrorGrafico(ex.getMessage());
+                }
             }
-        }
+        } while (repetir);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -222,5 +245,6 @@ public class Ejer2 extends javax.swing.JFrame {
     private javax.swing.JButton botonListadoCompras;
     private javax.swing.JButton botonModificar;
     private javax.swing.JButton botonVenta;
+    private javax.swing.JLabel textMensajePosible;
     // End of variables declaration//GEN-END:variables
 }

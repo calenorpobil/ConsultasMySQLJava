@@ -61,7 +61,7 @@ public class GestorDB {
                 }
             }
             throw new MiExcepcion("Error en la sentencia SQL que dice: " + sentencia + "\n"
-                    + "Código: " + ex.getErrorCode());
+                    + "Código: " + ex.getErrorCode()+"\n\n\n"+ex.getMessage());
         } finally {
             try {
                 st.close();
@@ -99,8 +99,17 @@ public class GestorDB {
             throw new MiExcepcion("Acuérdate de añadir la dependencia en el "
                     + "archivo po.xml. Cópialo del Ejer1. ");
         } catch (SQLException ex) {
-            throw new MiExcepcion("Error conectando con la base de datos\n"
-                    + ex.getMessage() + " " + ex.getErrorCode() + "  " + ex.getSQLState());
+            switch (ex.getErrorCode()) {
+                case 1045->{
+                    throw new MiExcepcion("Usuario o contraseña incorrecto... 👎");
+                }
+                default ->{
+                    throw new MiExcepcion("La Base de Datos esta apagada...\n"
+                            + "Mira el programa sin hacer nada ;)\n\n"
+                            + ex.getMessage() + " " + ex.getErrorCode());
+                }
+                    
+            }
         }
     }
 

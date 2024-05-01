@@ -2,8 +2,9 @@
 
 
  */
-package copiarArchivos;
+package utils;
 
+import java.awt.HeadlessException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.logging.Level;
@@ -16,6 +17,34 @@ import javax.swing.JOptionPane;
  */
 public class Utilidades {
     
+    public static String[] pideCadenasGrafico(String[] cadenas){
+        int lon = cadenas.length;
+        String[] res=new String[lon];
+        
+        for (int i = 0; i < lon; i++) {
+            res[i]=pideCadenaGrafico(cadenas[i]);
+        }
+        
+        return res;
+    }
+    
+    public static String pideCadenaGrafico(String cadena){
+        String graf = null;
+        boolean repetir=false;
+        
+        do {
+            try{
+                graf = JOptionPane.showInputDialog(
+                    null, cadena, 
+                        "pideCadena", 
+                        JOptionPane.QUESTION_MESSAGE);
+            }catch(HeadlessException ex){
+                muestraErrorGrafico(ex.getMessage());
+                repetir=true;
+            }
+        } while (repetir);
+        return graf;
+    }
                           
     public static void muestraErrorGrafico(String mensaje) {
         JOptionPane.showMessageDialog(null, mensaje, "CPIFP", JOptionPane.ERROR_MESSAGE);
