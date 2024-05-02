@@ -242,6 +242,7 @@ public class VentanaAlta extends javax.swing.JFrame {
     }//GEN-LAST:event_textoCantidadMinimaActionPerformed
 
     private void rutina() {
+        setResizable(false);
         etiMensajes.setVisible(false);
         textoCodigo.requestFocus();
         textoCodigo.setToolTipText("Código");

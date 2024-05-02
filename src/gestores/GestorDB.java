@@ -64,7 +64,9 @@ public class GestorDB {
                     + "Código: " + ex.getErrorCode()+"\n\n\n"+ex.getMessage());
         } finally {
             try {
-                st.close();
+                if (st!=null){
+                    st.close();
+                }
             } catch (SQLException | NullPointerException ex) {
                 throw new MiExcepcion("Error insertando. Posible pérdida de información. ");
             }
@@ -104,9 +106,10 @@ public class GestorDB {
                     throw new MiExcepcion("Usuario o contraseña incorrecto... 👎");
                 }
                 default ->{
-                    throw new MiExcepcion("La Base de Datos esta apagada...\n"
+                    throw new MiExcepcion(
+                            "La Base de Datos esta apagada...\n"
                             + "Mira el programa sin hacer nada ;)\n\n"
-                            + ex.getMessage() + " " + ex.getErrorCode());
+                            + ex.getMessage() + "\n\n" + ex.getErrorCode());
                 }
                     
             }
@@ -150,6 +153,40 @@ public class GestorDB {
             } catch (SQLException | NullPointerException ex) {
                 throw new MiExcepcion("Error cerrando... \n"
                         + "Posible pérdida de información. ");
+            }
+        }
+
+    }
+
+    public boolean existeArticulo(String codigo) throws MiExcepcion {
+        String resultado =null;
+        PreparedStatement st = null;
+        String sentencia = "SELECT cod_art FROM articulos WHERE cod_art = ?;";
+        try {
+            //NO USAR STATEMENT
+            st = this.conn.prepareStatement(
+                    sentencia
+            );
+            //Insertamos los valores en cada interrogante
+            st.setString(1, codigo);
+            
+            
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                resultado+=rs.getString(1);
+                System.out.println(resultado);
+            }
+            return resultado!=null;
+        } catch (SQLException ex) {
+            throw new MiExcepcion("Error en la sentencia SQL que dice: " + sentencia + "\n"
+                    + "Código: " + ex.getErrorCode()+"\n\n\n"+ex.getMessage());
+        } finally {
+            try {
+                if (st!=null) {
+                    st.close();
+                }
+            } catch (SQLException | NullPointerException ex) {
+                throw new MiExcepcion("Error insertando. Posible pérdida de información. ");
             }
         }
 

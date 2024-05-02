@@ -32,8 +32,11 @@ package com.calitos.ejer2;
 
 import Excepciones.MiExcepcion;
 import gestores.GestorDB;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import modelo.Articulo;
 import utils.Utilidades;
+import static utils.Utilidades.muestraErrorGrafico;
 
 /**
  *
@@ -96,6 +99,11 @@ public class Ejer2 extends javax.swing.JFrame {
 
         botonModificar.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         botonModificar.setText("Modificar Datos");
+        botonModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonModificarActionPerformed(evt);
+            }
+        });
 
         botonCompras.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         botonCompras.setText("Compras a proveedores");
@@ -122,7 +130,7 @@ public class Ejer2 extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(58, 58, 58)
+                .addGap(25, 25, 25)
                 .addComponent(botonAlta, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(botonListado, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -136,7 +144,7 @@ public class Ejer2 extends javax.swing.JFrame {
                 .addComponent(botonCompras, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(textMensajePosible)
-                .addContainerGap(49, Short.MAX_VALUE))
+                .addContainerGap(82, Short.MAX_VALUE))
         );
 
         pack();
@@ -154,6 +162,12 @@ public class Ejer2 extends javax.swing.JFrame {
         vA.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_botonAltaActionPerformed
+
+    private void botonModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonModificarActionPerformed
+        VentanaModificacion vM = new VentanaModificacion(this, miConexion);
+        vM.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_botonModificarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -192,39 +206,44 @@ public class Ejer2 extends javax.swing.JFrame {
     }
 
     private void inicio() {
+        setResizable(false);
+        boolean encendida=true;
         textMensajePosible.setVisible(false);
-        String[]mensajes = {"Escribe el usuario: ", "Escribe la contraseña: "};
+        String nombreTabla=Utilidades.pideCadenaGrafico("Escribe el nombre de la tabla: ");
+        pideUsuario(nombreTabla);
+    }
+
+    private void pideUsuario(String nombreTabla) {
         String[] cadenas;
         boolean repetir=false;
+        String[]mensajes = {"Escribe el usuario: ", "Escribe la contraseña: "};
         do {
             cadenas = Utilidades.pideCadenasGrafico(mensajes);
-            String nombreTabla="ejer2";
             miConexion = new GestorDB(cadenas[0], nombreTabla, 
                     "jdbc:mysql://127.0.0.1:3306/", cadenas[1]);
-                //Si hay un conflicto con el puerto 3306, por XAMPP se puede entrar
-                //a la configuración y cambiarlo a otro.
+            //Si hay un conflicto con el puerto 3306, por XAMPP se puede entrar
+            //a la configuración y cambiarlo a otro.
             try {
                 miConexion.inicializarBBDD();
 
                 Articulo al = new Articulo(
-                        "A004", 
-                        "Dos tres", 
-                        2.2f, 
+                        "A004",
+                        "Dos tres",
+                        2.2f,
                         1, 
                         4);
                 miConexion.altaArticulo(al);
-
-
-            //No cerrar la conexión restará bastante. 
+                
+                
+                //No cerrar la conexión restará bastante. 
             } catch (MiExcepcion ex) {
                 if(ex.getMessage().startsWith("Usuario")){
                     //Mensaje si el usuario es incorrecto: 
                     repetir =true;
                     Utilidades.muestraErrorGrafico(ex.getMessage());
                 }else{
-                    textMensajePosible.setVisible(true);
-                    textMensajePosible.setText("Mira, te dejo pasar pero tampoco puedes hacer nada...");
-                    Utilidades.muestraErrorGrafico(ex.getMessage());
+                    mensajeBaseApagada();
+                    muestraErrorGrafico(ex.getMessage());
                     repetir=false;
                 }
             } finally {
@@ -236,6 +255,11 @@ public class Ejer2 extends javax.swing.JFrame {
                 }
             }
         } while (repetir);
+    }
+
+    private void mensajeBaseApagada() {
+        textMensajePosible.setVisible(true);
+        textMensajePosible.setText("Mira, te dejo pasar pero tampoco puedes hacer nada...");
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

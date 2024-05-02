@@ -175,10 +175,11 @@ public class VentanaModificacion extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(etiMensajes)
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(botonModificacion)
-                    .addComponent(botonVolver)
-                    .addComponent(botonVolver1))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(botonVolver)
+                        .addComponent(botonVolver1)))
                 .addContainerGap(25, Short.MAX_VALUE))
         );
 
@@ -251,7 +252,7 @@ public class VentanaModificacion extends javax.swing.JFrame {
     }//GEN-LAST:event_textoCodigoActionPerformed
 
     private void botonVolver1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonVolver1ActionPerformed
-        // TODO add your handling code here:
+        limpiaFormulario();
     }//GEN-LAST:event_botonVolver1ActionPerformed
 
     private void textoCodigoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textoCodigoKeyTyped
@@ -259,6 +260,7 @@ public class VentanaModificacion extends javax.swing.JFrame {
     }//GEN-LAST:event_textoCodigoKeyTyped
 
     private void rutina() {
+        setResizable(false);
         limpiaFormulario();
     }
 
@@ -275,9 +277,14 @@ public class VentanaModificacion extends javax.swing.JFrame {
         textoCantidadMinima.setToolTipText("Cantidad mínima");
         textoDescripcion.setToolTipText("Descripción");
         textoPrecio.setToolTipText("Precio");
+        textoCodigo.setText("Código");
+        textoPrecio.setText("Precio");
+        textoCantidad.setText("Cantidad");
+        textoCantidadMinima.setText("Cantidad mínima");
+        textoDescripcion.setText("Descripción");
     }
     private void mensajeCorrecto() {
-        etiMensajes.setText("Enhorabuena, dado de alta. ");
+        etiMensajes.setText("Enhorabuena, modificado. ");
         etiMensajes.setForeground(Color.green);
         etiMensajes.setVisible(true);
     }
@@ -317,7 +324,6 @@ public class VentanaModificacion extends javax.swing.JFrame {
                 textoCodigo.setEnabled(false);
             }
             
-            mensajeCorrecto();
             
             
             
