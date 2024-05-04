@@ -30,14 +30,7 @@ edición de todos ellos , menos del código.
  */
 package com.calitos.ejer2;
 
-import Excepciones.MiExcepcion;
 import gestores.GestorDB;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import modelo.Articulo;
-import utils.Utilidades;
-import static utils.Utilidades.muestraErrorGrafico;
 
 /**
  *
@@ -45,18 +38,18 @@ import static utils.Utilidades.muestraErrorGrafico;
  */
 public class Ejer2 extends javax.swing.JFrame {
 
-    private static GestorDB miConexion;
-    private GestorDB conn;
+    private GestorDB miConexion;
     private VentanaSesion ventanaVieja;
 
     /**
      * Creates new form VentanaAlta
      *
      * @param conn
+     * @param ventanaVieja
      */
     public Ejer2(GestorDB conn, VentanaSesion ventanaVieja) {
-        this.conn = conn;
         this.ventanaVieja = ventanaVieja;
+        this.miConexion = conn;
         initComponents();
         inicio();
     }
@@ -77,6 +70,7 @@ public class Ejer2 extends javax.swing.JFrame {
         botonModificar = new javax.swing.JButton();
         botonCompras = new javax.swing.JButton();
         textMensajePosible = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -116,20 +110,29 @@ public class Ejer2 extends javax.swing.JFrame {
         textMensajePosible.setForeground(new java.awt.Color(102, 0, 0));
         textMensajePosible.setText("mensajePosible");
 
+        jButton1.setText("Cerrar Sesión");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(40, 40, 40)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(botonAlta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(botonModificar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(botonListadoCompras, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(botonCompras, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(botonListado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(botonVenta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(textMensajePosible, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton1)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(botonAlta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(botonModificar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(botonListadoCompras, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(botonCompras, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(botonListado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(botonVenta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(textMensajePosible, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap(47, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -149,7 +152,9 @@ public class Ejer2 extends javax.swing.JFrame {
                 .addComponent(botonCompras, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(textMensajePosible)
-                .addContainerGap(82, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                .addComponent(jButton1)
+                .addGap(26, 26, 26))
         );
 
         pack();
@@ -173,9 +178,15 @@ public class Ejer2 extends javax.swing.JFrame {
         this.setVisible(false);
     }//GEN-LAST:event_botonModificarActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        this.dispose();
+        ventanaVieja.limpiar();
+        ventanaVieja.setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
 
     private void inicio() {
-        this.setEnabled(false);
+        
         textMensajePosible.setVisible(false);
     }
 
@@ -188,6 +199,7 @@ public class Ejer2 extends javax.swing.JFrame {
     private javax.swing.JButton botonListadoCompras;
     private javax.swing.JButton botonModificar;
     private javax.swing.JButton botonVenta;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel textMensajePosible;
     // End of variables declaration//GEN-END:variables
 }

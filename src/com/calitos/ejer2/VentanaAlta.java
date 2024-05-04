@@ -29,6 +29,7 @@ public class VentanaAlta extends javax.swing.JFrame {
      */
     public VentanaAlta(Ejer2 ventanaVieja, GestorDB miConexion) {
         this.miConexion = miConexion;
+        this.ventanaVieja = ventanaVieja;
         initComponents();
         rutina();
     }

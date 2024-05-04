@@ -8,7 +8,7 @@ import Excepciones.MiExcepcion;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -184,12 +184,58 @@ public class GestorDB {
         }
 
     }
+    public Articulo pasaDatos(String codigo) throws MiExcepcion {
+        String resultado = "";
+
+        PreparedStatement st = null;
+        String sentencia = "select * from articulos where cod_art = ?;";
+        Articulo ar = null;
+        try {
+            //NO USAR STATEMENT
+            inicializarBBDD();
+            st = this.conn.prepareStatement(
+                    sentencia
+            );
+            st.setString(1, codigo);
+            ResultSet rs = st.executeQuery();
+            ResultSetMetaData rsmd = rs.getMetaData();
+            String[] res = new String[rsmd.getColumnCount()];
+
+            int vez=0;
+            while (rs.next()) {
+                ar = new Articulo(
+                        rs.getString(1), 
+                        rs.getString(2),
+                        rs.getFloat(3), 
+                        rs.getInt(4), 
+                        rs.getInt(5));
+            }
+
+            return ar;
+        } catch (SQLException ex) {
+            throw new MiExcepcion(ex.getMessage());
+//            throw new MiExcepcion("Error en la sentencia SQL que dice: " + sentencia + "\n"
+//                    + "Código: " + ex.getErrorCode());
+        } finally {
+            try {
+                if (st != null) {
+                    st.close();
+                }
+                cerrarConexion();
+            } catch (SQLException | NullPointerException ex) {
+                throw new MiExcepcion("Error cerrando... \n"
+                        + "Posible pérdida de información. ");
+            }
+        }
+
+    }
 
     public boolean existeArticulo(String codigo) throws MiExcepcion {
         String resultado =null;
         PreparedStatement st = null;
         String sentencia = "SELECT cod_art FROM articulos WHERE cod_art = ?;";
         try {
+            inicializarBBDD();
             //NO USAR STATEMENT
             st = this.conn.prepareStatement(
                     sentencia
@@ -201,7 +247,7 @@ public class GestorDB {
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 resultado+=rs.getString(1);
-                System.out.println(resultado);
+                System.out.println("Buscando... "+resultado);
             }
             return resultado!=null;
         } catch (SQLException ex) {
@@ -215,6 +261,7 @@ public class GestorDB {
             } catch (SQLException | NullPointerException ex) {
                 throw new MiExcepcion("Error insertando. Posible pérdida de información. ");
             }
+            cerrarConexion();
         }
 
     }

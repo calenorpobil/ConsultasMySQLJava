@@ -7,6 +7,8 @@ package com.calitos.ejer2;
 import Excepciones.MiExcepcion;
 import gestores.GestorDB;
 import java.awt.Color;
+import java.awt.Image;
+import javax.swing.ImageIcon;
 import modelo.Articulo;
 import utils.Utilidades;
 import static utils.Utilidades.muestraErrorGrafico;
@@ -18,11 +20,8 @@ import static utils.Utilidades.muestraErrorGrafico;
 public class VentanaSesion extends javax.swing.JFrame {
 
     private static GestorDB miConexion;
-    private GestorDB conn;
-    private Ejer2 ventanaVieja;
     /**
      * Creates new form VentanaSesion
-     * @param ventanaVieja
      * @param miConexion
      */
     public VentanaSesion(GestorDB miConexion) {
@@ -67,7 +66,6 @@ public class VentanaSesion extends javax.swing.JFrame {
         etiBBDD.setText("Base de Datos");
 
         botonSignIn.setFont(new java.awt.Font("Segoe Script", 0, 24)); // NOI18N
-        botonSignIn.setText("▶");
         botonSignIn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botonSignInActionPerformed(evt);
@@ -80,24 +78,25 @@ public class VentanaSesion extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(28, 28, 28)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(textMensajePosible, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(48, 48, 48)
-                        .addComponent(botonSignIn))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(etiBBDD, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(53, 53, 53)
-                        .addComponent(textoBBDD, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(etiUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(59, 59, 59)
-                        .addComponent(textoUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(etiContrasena, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(53, 53, 53)
-                        .addComponent(textoContrasena, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(41, Short.MAX_VALUE))
+                        .addGap(44, 44, 44)
+                        .addComponent(botonSignIn, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(etiBBDD, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(53, 53, 53)
+                            .addComponent(textoBBDD, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(etiUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(59, 59, 59)
+                            .addComponent(textoUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(etiContrasena, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(53, 53, 53)
+                            .addComponent(textoContrasena, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(24, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -114,10 +113,13 @@ public class VentanaSesion extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(etiContrasena)
                     .addComponent(textoContrasena, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(31, 31, 31)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(botonSignIn)
-                    .addComponent(textMensajePosible))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(31, 31, 31)
+                        .addComponent(textMensajePosible))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(botonSignIn, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -126,16 +128,15 @@ public class VentanaSesion extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
 
         pack();
@@ -177,6 +178,15 @@ public class VentanaSesion extends javax.swing.JFrame {
     private void inicio() {
         textMensajePosible.setVisible(false);
         textMensajePosible.setForeground(Color.red);
+        // load the image to a imageIcon:
+        ImageIcon imageIcon = new ImageIcon("flecha.png"); 
+        // transform it:
+        Image image = imageIcon.getImage(); 
+        Image newimg = image.getScaledInstance(80, 40, 
+                java.awt.Image.SCALE_SMOOTH); // scale it the smooth way  
+        imageIcon = new ImageIcon(newimg);
+        botonSignIn.setIcon(imageIcon); // NOI18N
+        
     }
     private void pideUsuario() {
         miConexion = new GestorDB(textoUsuario.getText(), textoBBDD.getText(),
@@ -184,23 +194,18 @@ public class VentanaSesion extends javax.swing.JFrame {
         //Si hay un conflicto con el puerto 3306, por XAMPP se puede entrar
         //a la configuración y cambiarlo a otro.
         try {
-            miConexion.inicializarBBDD();
-            Articulo al = new Articulo(
-                    "A004",
-                    "Dos tres",
-                    2.2f,
-                    1,
-                    4);
             
-            miConexion.altaArticulo(al);
-
-            //No cerrar la conexión restará bastante. 
+            
+            miConexion.inicializarBBDD();
+            abrirVentana();
+            
+            
         } catch (MiExcepcion ex) {
             //Mensaje si el usuario es incorrecto: 
             switch (ex.getMessage().charAt(0)) {
                 case 'U' -> {
                     //Usuario incorrecto:
-                    Utilidades.muestraErrorGrafico(ex.getMessage());
+                    mensajeUsuario();
                 }
                 default -> {
                     //BBDD apagada:
@@ -212,18 +217,28 @@ public class VentanaSesion extends javax.swing.JFrame {
         } finally {
             try {
                 miConexion.cerrarConexion();
-                textMensajePosible.setVisible(false);
             } catch (MiExcepcion ex) {
                 Utilidades.muestraErrorGrafico(ex.getMessage());
             }
         }
-        this.dispose();
         
+    }
+
+    private void abrirVentana() {
+        //Si todo ha ido bien, la ventana se cierra (?)
+        this.setVisible(false);
+        Ejer2 ventanaNueva = new Ejer2(miConexion, this);
+        ventanaNueva.setVisible(true);
+        //No cerrar la conexión restará bastante. 
     }
     
     private void mensajeBaseApagada() {
         textMensajePosible.setVisible(true);
-        textMensajePosible.setText("Mira, te dejo pasar pero tampoco puedes hacer nada...");
+        textMensajePosible.setText("La Base de Datos está apagada...");
+    }
+    private void mensajeUsuario() {
+        textMensajePosible.setVisible(true);
+        textMensajePosible.setText("Usuario incorrecto...");
     }
 
     private boolean estaLaBaseActiva(String nombreTabla) throws MiExcepcion {
@@ -278,5 +293,12 @@ public class VentanaSesion extends javax.swing.JFrame {
                 new VentanaSesion(miConexion).setVisible(true);
             }
         });
+    }
+
+    void limpiar() {
+        textMensajePosible.setText("");
+        textoBBDD.setText("");
+        textoContrasena.setText("");
+        textoUsuario.setText("");
     }
 }

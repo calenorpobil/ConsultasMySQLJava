@@ -8,6 +8,8 @@ import Excepciones.MiExcepcion;
 import gestores.GestorDB;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import modelo.Articulo;
 import static utils.Utilidades.muestraErrorGrafico;
 
@@ -60,14 +62,14 @@ public class VentanaModificacion extends javax.swing.JFrame {
         textoCodigo.setText("Código");
         textoCodigo.setToolTipText("Código");
         textoCodigo.setName(""); // NOI18N
+        textoCodigo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                textoCodigoMouseClicked(evt);
+            }
+        });
         textoCodigo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 textoCodigoActionPerformed(evt);
-            }
-        });
-        textoCodigo.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                textoCodigoKeyTyped(evt);
             }
         });
 
@@ -154,7 +156,7 @@ public class VentanaModificacion extends javax.swing.JFrame {
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(botonModificacion, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addComponent(etiTitulo)))
-                .addContainerGap(53, Short.MAX_VALUE))
+                .addContainerGap(48, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -247,16 +249,23 @@ public class VentanaModificacion extends javax.swing.JFrame {
     }//GEN-LAST:event_textoDescripcionActionPerformed
 
     private void textoCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textoCodigoActionPerformed
-        botonModificacionActionPerformed(evt);
+        String codigo = evt.getActionCommand();
+        try {
+            if(miConexion.existeArticulo(codigo)){
+                abreCasillas(codigo);
+            }
+        } catch (MiExcepcion ex) {
+            mensajeIncorrecto(ex.getMessage());
+        }
     }//GEN-LAST:event_textoCodigoActionPerformed
 
     private void botonVolver1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonVolver1ActionPerformed
         limpiaFormulario();
     }//GEN-LAST:event_botonVolver1ActionPerformed
 
-    private void textoCodigoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textoCodigoKeyTyped
-        buscarArticulo();
-    }//GEN-LAST:event_textoCodigoKeyTyped
+    private void textoCodigoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_textoCodigoMouseClicked
+        limpiaFormulario();
+    }//GEN-LAST:event_textoCodigoMouseClicked
 
     private void rutina() {
         setResizable(false);
@@ -336,5 +345,25 @@ public class VentanaModificacion extends javax.swing.JFrame {
             }
         }
         
+    }
+
+    private void abreCasillas(String codigo) {
+        textoCodigo.setEnabled(false);
+        textoCantidad.setEnabled(true);
+        textoCantidadMinima.setEnabled(true);
+        textoDescripcion.setEnabled(true);
+        textoPrecio.setEnabled(true);
+        Articulo datos = null;
+        try {
+            datos = miConexion.pasaDatos(codigo);
+        } catch (MiExcepcion ex) {
+            mensajeIncorrecto(ex.getMessage());
+        }
+        if (datos!=null){
+            textoCantidad.setText(datos.getCantidad()+"");
+            textoCantidadMinima.setText(datos.getCantidad_min()+"");
+            textoPrecio.setText(datos.getPrecio()+"");
+            textoDescripcion.setText(datos.getDescripcion()+"");
+        }
     }
 }
