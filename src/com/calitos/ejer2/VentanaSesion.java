@@ -195,9 +195,7 @@ public class VentanaSesion extends javax.swing.JFrame {
         //a la configuración y cambiarlo a otro.
         try {
             
-            
             miConexion.inicializarBBDD();
-            abrirVentana();
             
             
         } catch (MiExcepcion ex) {
