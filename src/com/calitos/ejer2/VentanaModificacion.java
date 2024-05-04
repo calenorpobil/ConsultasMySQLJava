@@ -5,7 +5,6 @@
 package com.calitos.ejer2;
 
 import Excepciones.MiExcepcion;
-import static com.calitos.ejer2.Ejer2.miConexion;
 import gestores.GestorDB;
 import java.awt.Color;
 import java.awt.event.KeyEvent;

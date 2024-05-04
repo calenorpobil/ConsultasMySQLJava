@@ -5,7 +5,6 @@
 package com.calitos.ejer2;
 
 import Excepciones.MiExcepcion;
-import static com.calitos.ejer2.Ejer2.miConexion;
 import gestores.GestorDB;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -20,7 +19,7 @@ import modelo.Articulo;
  */
 public class VentanaListado extends javax.swing.JFrame {
 
-    private GestorDB conn;
+    private GestorDB miConexion;
     private Ejer2 ventanaVieja;
     private DefaultTableModel dtm;
     /**
@@ -115,7 +114,7 @@ public class VentanaListado extends javax.swing.JFrame {
 
     private void rutina(GestorDB miConn) {
         setResizable(false);
-        this.conn = miConn;
+        this.miConexion = miConn;
         try {
             miConexion.inicializarBBDD();
             rellenoTabla();
@@ -138,7 +137,7 @@ public class VentanaListado extends javax.swing.JFrame {
         dtm = (DefaultTableModel) tablaListado.getModel();
         String[][] datos = null;
         try{
-            datos = conn.listado();
+            datos = miConexion.listado();
         }catch(MiExcepcion ex){
             muestraError(ex.getMessage());
         }

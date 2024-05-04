@@ -11,6 +11,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import modelo.Articulo;
 
 /**
@@ -31,6 +33,32 @@ public class GestorDB {
         this.conexion = conexion;
         this.password = password;
         this.conn = null;
+    }
+    
+    public boolean isMysqlEncendido() throws MiExcepcion{
+        boolean encendido = false;
+        String databaseName;
+        ResultSet resultSet = null;
+        try {
+            resultSet = conn.getMetaData().getCatalogs();
+            // Iterate each catalog in the ResultSet
+            while (resultSet.next()) {
+                databaseName = resultSet.getString(1);
+                 // Get the database name, which is at position 1
+                 return true;
+            }
+        } catch (SQLException ex) {
+            throw new MiExcepcion("Error en la Base de Datos... "+ex.getErrorCode());
+        } finally{
+            try {
+                if (resultSet!=null) {
+                    resultSet.close();
+                }
+            } catch (SQLException ex) {
+                throw new MiExcepcion(ex.getMessage());
+            }
+        }
+        return encendido;
     }
 
     public int altaArticulo(Articulo al) throws MiExcepcion {
@@ -103,13 +131,12 @@ public class GestorDB {
         } catch (SQLException ex) {
             switch (ex.getErrorCode()) {
                 case 1045->{
-                    throw new MiExcepcion("Usuario o contraseña incorrecto... 👎");
-                }
-                default ->{
+                    throw new MiExcepcion("Usuario o contraseña incorrectos. ");
+                }default ->{
                     throw new MiExcepcion(
-                            "La Base de Datos esta apagada...\n"
-                            + "Mira el programa sin hacer nada ;)\n\n"
-                            + ex.getMessage() + "\n\n" + ex.getErrorCode());
+                        "La Base de Datos esta apagada...\n"
+                        + "Mira el programa sin hacer nada ;)\n\n"
+                        + ex.getErrorCode());
                 }
                     
             }

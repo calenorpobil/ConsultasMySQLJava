@@ -32,6 +32,7 @@ package com.calitos.ejer2;
 
 import Excepciones.MiExcepcion;
 import gestores.GestorDB;
+import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import modelo.Articulo;
@@ -43,15 +44,19 @@ import static utils.Utilidades.muestraErrorGrafico;
  * @author AluDAM
  */
 public class Ejer2 extends javax.swing.JFrame {
-    static GestorDB miConexion;
-    GestorDB conn;
-    
+
+    private static GestorDB miConexion;
+    private GestorDB conn;
+    private VentanaSesion ventanaVieja;
+
     /**
      * Creates new form VentanaAlta
+     *
      * @param conn
      */
-    public Ejer2(GestorDB conn) {
+    public Ejer2(GestorDB conn, VentanaSesion ventanaVieja) {
         this.conn = conn;
+        this.ventanaVieja = ventanaVieja;
         initComponents();
         inicio();
     }
@@ -154,7 +159,6 @@ public class Ejer2 extends javax.swing.JFrame {
         this.setVisible(false);
         VentanaListado vL = new VentanaListado(this, miConexion);
         vL.setVisible(true);
-        this.setVisible(false);
     }//GEN-LAST:event_botonListadoActionPerformed
 
     private void botonAltaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAltaActionPerformed
@@ -169,98 +173,13 @@ public class Ejer2 extends javax.swing.JFrame {
         this.setVisible(false);
     }//GEN-LAST:event_botonModificarActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Ejer2.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Ejer2.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Ejer2.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Ejer2.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Ejer2(miConexion).setVisible(true);
-            }
-        });
-    }
 
     private void inicio() {
-        setResizable(false);
-        boolean encendida=true;
+        this.setEnabled(false);
         textMensajePosible.setVisible(false);
-        String nombreTabla=Utilidades.pideCadenaGrafico("Escribe el nombre de la tabla: ");
-        pideUsuario(nombreTabla);
     }
 
-    private void pideUsuario(String nombreTabla) {
-        String[] cadenas;
-        boolean repetir=false;
-        String[]mensajes = {"Escribe el usuario: ", "Escribe la contraseña: "};
-        do {
-            cadenas = Utilidades.pideCadenasGrafico(mensajes);
-            miConexion = new GestorDB(cadenas[0], nombreTabla, 
-                    "jdbc:mysql://127.0.0.1:3306/", cadenas[1]);
-            //Si hay un conflicto con el puerto 3306, por XAMPP se puede entrar
-            //a la configuración y cambiarlo a otro.
-            try {
-                miConexion.inicializarBBDD();
-
-                Articulo al = new Articulo(
-                        "A004",
-                        "Dos tres",
-                        2.2f,
-                        1, 
-                        4);
-                miConexion.altaArticulo(al);
-                
-                
-                //No cerrar la conexión restará bastante. 
-            } catch (MiExcepcion ex) {
-                if(ex.getMessage().startsWith("Usuario")){
-                    //Mensaje si el usuario es incorrecto: 
-                    repetir =true;
-                    Utilidades.muestraErrorGrafico(ex.getMessage());
-                }else{
-                    mensajeBaseApagada();
-                    muestraErrorGrafico(ex.getMessage());
-                    repetir=false;
-                }
-            } finally {
-                try {
-                    miConexion.cerrarConexion();
-                    textMensajePosible.setVisible(false);
-                } catch (MiExcepcion ex) {
-                    Utilidades.muestraErrorGrafico(ex.getMessage());
-                }
-            }
-        } while (repetir);
-    }
-
-    private void mensajeBaseApagada() {
-        textMensajePosible.setVisible(true);
-        textMensajePosible.setText("Mira, te dejo pasar pero tampoco puedes hacer nada...");
-    }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonAlta;

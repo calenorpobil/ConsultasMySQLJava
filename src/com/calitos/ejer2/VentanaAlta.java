@@ -5,9 +5,11 @@
 package com.calitos.ejer2;
 
 import Excepciones.MiExcepcion;
-import static com.calitos.ejer2.Ejer2.miConexion;
 import gestores.GestorDB;
 import java.awt.Color;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import modelo.Articulo;
 import static utils.Utilidades.muestraErrorGrafico;
 
@@ -18,13 +20,15 @@ import static utils.Utilidades.muestraErrorGrafico;
 public class VentanaAlta extends javax.swing.JFrame {
 
     Ejer2 ventanaVieja;
-    GestorDB conn;
+    GestorDB miConexion;
+
     /**
      * Creates new form VentanaAlta
+     * @param ventanaVieja
+     * @param miConexion
      */
     public VentanaAlta(Ejer2 ventanaVieja, GestorDB miConexion) {
-        this.ventanaVieja = ventanaVieja;
-        this.conn = miConexion;
+        this.miConexion = miConexion;
         initComponents();
         rutina();
     }
@@ -183,30 +187,28 @@ public class VentanaAlta extends javax.swing.JFrame {
 
     private void botonAltaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAltaActionPerformed
         Articulo a1;
-        
+
         try {
             miConexion.inicializarBBDD();
             a1 = new Articulo(
-                    textoCodigo.getText(), 
-                    textoDescripcion.getText(), 
-                    textoPrecio.getText(), 
-                    textoCantidad.getText(), 
+                    textoCodigo.getText(),
+                    textoDescripcion.getText(),
+                    textoPrecio.getText(),
+                    textoCantidad.getText(),
                     textoCantidadMinima.getText());
             miConexion.altaArticulo(a1);
             mensajeCorrecto();
-            
-            
-            
+
         } catch (MiExcepcion ex) {
             mensajeIncorrecto(ex.getMessage());
-        }finally{
+        } finally {
             try {
                 miConexion.cerrarConexion();
             } catch (MiExcepcion ex) {
                 muestraErrorGrafico(ex.getMessage());
             }
         }
-        
+
     }//GEN-LAST:event_botonAltaActionPerformed
 
     private void mensajeIncorrecto(String ex) {
